@@ -27,10 +27,27 @@
 
 ## 요구사항
 - [x] Entity Domain
-  - [x] Applicatns
+  - [x] Applicants
+      - applicant_id (PK)
+      - email (varchar)
+      - password (varchar)
+      - is_applied (boolean)
   - [x] Company
+      - company_id (PK)
+      - company_name (varchar)
+      - country (varchar)
+      - region (varchar)
   - [x] Recruitment
+      - recruitment_id (PK)
+      - position (varchar)
+      - compensation (int)
+      - contents (text)
+      - tech_stach (text)
+      - companyId (FK)
   - [x] Application
+      - application_id (PK)
+      - recruitmentId (FK)
+      - applicantsId (FK)
   
     ![wanted_db](https://user-images.githubusercontent.com/71310074/195398371-53301676-73ac-44d7-b4d8-d276b64619c6.png)
 
