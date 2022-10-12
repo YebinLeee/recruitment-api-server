@@ -27,6 +27,14 @@
 
 ## 요구사항
 
+- [ ] Auth Module (User Entity)
+- [ ] Company Module (Company Entity)
+- [ ] Recruit Module (Recruit Entity)
+- [ ] Application Module (Application Entity)
+
+<details>
+  <summary> 요구사항 자세히 보기 </summary>
+
 1. **채용공고를 등록합니다.**
     
     <aside>
@@ -246,3 +254,6 @@
 - Unit Test 구현
 - README 에 요구사항 분석 및 구현 과정을 작성
 - Git commit 메시지 컨벤션
+
+
+</details>
