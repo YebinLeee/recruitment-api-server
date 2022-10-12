@@ -26,6 +26,13 @@
 - 회사는 채용공고를 생성하고, 이에 사용자는 지원합니다.
 
 ## 요구사항
+- [x] Entity Domain
+  - [x] Applicatns
+  - [x] Company
+  - [x] Recruitment
+  - [x] Application
+  
+    ![wanted_db](https://user-images.githubusercontent.com/71310074/195398371-53301676-73ac-44d7-b4d8-d276b64619c6.png)
 
 - [ ] Auth Module (User Entity)
 - [ ] Company Module (Company Entity)
