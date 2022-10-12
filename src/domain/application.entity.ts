@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { Recruitment } from "./recruitment.entity";
 import { Applicants } from "./applicatns.entity";

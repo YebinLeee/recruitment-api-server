@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Recruitment } from "./recruitment.entity";
 
 @Entity('comapny')
 export class Company{
-    @PrimaryGeneratedColumn({ type: "int", name: "recruitment_id" })
+    @PrimaryGeneratedColumn({ type: "int", name: "company_id" })
     id: number;
 
     @Column("varchar", { name: "company_name" })
@@ -17,5 +17,8 @@ export class Company{
     region: string;
 
     @OneToMany(() => Recruitment, recruitment => recruitment.company, {eager: true})
+    @JoinColumn({
+        foreignKeyConstraintName: 'fk_recruitment_id'
+    })
     recruitments: Recruitment[];
 }

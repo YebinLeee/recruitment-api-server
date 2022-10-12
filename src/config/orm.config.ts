@@ -20,14 +20,13 @@ function ormConfig(): TypeOrmModuleOptions{
         port: 3306,
         username: 'root',
         password: '0000',
-        database: 'mydb',
+        database: 'wanted',
         entities: commonConf.ENTITIES,
         synchronize: commonConf.SYNCHRONIZE,
         logging: true,
         migrations: commonConf.MIGRATIONS,
         migrationsRun: commonConf.MIGRATIONS_RUN
     }
-
     return ormconfig;
 }
 

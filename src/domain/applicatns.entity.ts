@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Application } from './application.entity';
 
 @Entity("applicants")
@@ -10,12 +10,15 @@ export class Applicants{
     @Column("varchar", { name: "email", unique: true })
     email: string;
 
-    @Column("char", { name: "password", nullable: true })
+    @Column("varchar", { name: "password", nullable: true })
     passsword: string | null;
 
     @Column("tinyint", { name: "is_applied", default: false })
-    isApplied: boolean;
+    isApplied: boolean | false;
 
-    @OneToOne(() => Application, (application) => application)
+    @OneToOne(() => Application, (application) => application, {eager:false})
+    @JoinColumn({
+        foreignKeyConstraintName: 'fk_application_id'
+    })
     application: Application;
 }
