@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Application } from './application.entity';
 
 @Entity("applicants")
@@ -16,9 +16,6 @@ export class Applicants{
     @Column("tinyint", { name: "is_applied", default: false })
     isApplied: boolean | false;
 
-    @OneToOne(() => Application, (application) => application, {eager:false})
-    @JoinColumn({
-        foreignKeyConstraintName: 'fk_application_id'
-    })
+    @OneToOne(() => Application, (application) => application)
     application: Application;
 }

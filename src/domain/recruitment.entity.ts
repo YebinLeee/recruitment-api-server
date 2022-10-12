@@ -21,14 +21,11 @@ export class Recruitment{
     techStack: string;
 
     @ManyToOne(() => Company, (company) => company.recruitments, { eager: false })
-    @JoinColumn({ 
+    @JoinColumn({
         foreignKeyConstraintName: 'fk_company_id'
-      })
+    })
     company: Company;
 
     @OneToMany(() => Application, application => application.recruitment, { eager: true })
-    @JoinColumn({
-        foreignKeyConstraintName: 'fk_applicant_id'
-    })
     applications: Application[];
 }
