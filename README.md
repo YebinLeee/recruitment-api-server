@@ -26,35 +26,6 @@
 - 회사는 채용공고를 생성하고, 이에 사용자는 지원합니다.
 
 ## 요구사항
-- [x] Entity Domain
-  - [x] Applicants
-      - applicant_id (PK)
-      - email (varchar)
-      - password (varchar)
-      - is_applied (boolean)
-  - [x] Company
-      - company_id (PK)
-      - company_name (varchar)
-      - country (varchar)
-      - region (varchar)
-  - [x] Recruitment
-      - recruitment_id (PK)
-      - position (varchar)
-      - compensation (int)
-      - contents (text)
-      - tech_stach (text)
-      - companyId (FK)
-  - [x] Application
-      - application_id (PK)
-      - recruitmentId (FK)
-      - applicantsId (FK)
-  
-    ![wanted_db](https://user-images.githubusercontent.com/71310074/195398371-53301676-73ac-44d7-b4d8-d276b64619c6.png)
-
-- [ ] Auth Module (User Entity)
-- [ ] Company Module (Company Entity)
-- [ ] Recruit Module (Recruit Entity)
-- [ ] Application Module (Application Entity)
 
 <details>
   <summary> 요구사항 자세히 보기 </summary>
@@ -281,3 +252,40 @@
 
 
 </details>
+
+
+
+1. DB 및 Entity 설계
+
+<center><img src="https://user-images.githubusercontent.com/71310074/195594839-3b6d5b49-3ca3-4211-a177-687336fbf7f9.png" width="500"></center>
+
+- [x] Entity Domain
+  - [x] Applicants
+      - applicant_id (PK)
+      - email (varchar)
+      - password (varchar)
+      - is_applied (boolean)
+  - [x] Company
+      - company_id (PK)
+      - company_name (varchar)
+      - country (varchar)
+      - region (varchar)
+  - [x] Recruitment
+      - recruitment_id (PK)
+      - position (varchar)
+      - compensation (int)
+      - contents (text)
+      - tech_stach (text)
+      - companyId (FK)
+  - [x] Application
+      - application_id (PK)
+      - recruitmentId (FK)
+      - applicantsId (FK)
+  
+  
+
+
+- [ ] Auth Module (User Entity)
+- [ ] Company Module (Company Entity)
+- [ ] Recruit Module (Recruit Entity)
+- [ ] Application Module (Application Entity)

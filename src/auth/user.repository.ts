@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
-import { CustomRepository } from "src/db/typeorm-ex.module";
-import { Applicants } from "src/domain/applicants.entity";
-import { Repository } from "typeorm";
+import { CustomRepository } from 'src/db/typeorm-ex.module';
+import { Users } from 'src/domain/users.entity';
+import { Repository } from 'typeorm';
 
-@CustomRepository(Applicants)
-export class ApplicantRepository extends Repository<Applicants>{}
+@CustomRepository(Users)
+export class UserRepository extends Repository<Users> {}
