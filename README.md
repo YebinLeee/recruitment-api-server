@@ -254,38 +254,52 @@
 
 # 과제 기반 개발 내용
 
-## DB 및 Entity 설계
+## DB 및 Entity 모델링 설계
 
 <br>
 
-<center><img src="https://user-images.githubusercontent.com/71310074/195757023-4abd7241-0ce5-47e3-9cc5-2d0ed8b5994b.png" width="600"></center>
+<center><img src="https://user-images.githubusercontent.com/71310074/195986286-96a6f8a0-899d-4c47-aad2-1fee9aa2e7c5.png" width="600"></center>
 
 <br>
 
-- [x] Entity Domain
-  - [x] Users : 유저(지원자)
-      - applicant_id (PK)
-      - email (varchar)
-      - password (varchar)
-      - is_applied (boolean)
-  - [x] Company : 유저(회사)
-      - company_id (PK)
-      - company_name (varchar)
-      - country (varchar)
-      - region (varchar)
-  - [x] Recruitment : 채용공고
-      - recruitment_id (PK)
-      - position (varchar)
-      - compensation (int)
-      - contents (text)
-      - tech_stach (text)
-      - company_id (FK)
-  - [x] Application : 지원서
-      - application_id (PK)
-      - recruitment_Id (FK)
-      - user_id (FK)
+<details>
+  <summary> DB 모델링 설계 상세 설명</summary>
+  
+## users : 유저(지원자)
+
+- 일반 사용자에 대한 users 테이블입니다.
+- `user_id`(int, PK), `email`(varchar), `password`(varchar), `is_applied` (tinyint) 로 구성되어 있습니다.
+- `is_applied`는 사용자가 1회 지원이 가능하다는 점을 고려하여 만든 bool 타입의 지원 여부 칼럼입니다.
 
 <br>
+
+## company : 회사 유저
+
+- 회사 유저에 대한 `company` 테이블입니다.
+- 회사의 기본적인 정보를 담고 있으며, 채용 공고 (Recruitment)에 대한 CRUD를 맡는 유저합니다.
+- `company_id`(int, PK), `company_name`(varchar), `country`(varchar), `region`(varchar) 로 구성되어 있습니다.
+- 지원서 `application` 테이블과 1:N 관계를 맺습니다.
+
+<br>
+
+## recruitment : 채용공고
+
+- 채용 공고에 대한 `recruitment` 테이블입니다.
+- `recruitment_id`(int, PK), `position`(varchar), `compensation)`(bigint), `contents`(text), `tech_stack`(text), `company_id`(int, FK)로 구성되어 있습니다.
+- 회사 `company` 테이블과 N:1 관계를 맺습니다.
+
+<br>
+
+## application : 지원서
+
+- 지원서에 대한 `application` 테이블입니다.
+- `application_id`(int, PK), `reume`(TEXT), `recruitment_id`(int, FK), `user_id`(int, FK)로 구성되어 있습니다.
+- 채용 공고 `recruitment` 테이블과 N:1 관계를 맺고, `user_id`와 1:1 관계를 맺습니다.
+
+</details>
+
+<br>
+
 
 ## 요구 사항 분석 및 구현 과정
 
@@ -564,7 +578,7 @@ POST /recruitment/:id/apply
 ## 사용 기술
 
 - typescript를 사용했으며, node.js (NestJS framework) 서버를 이용해 API를 개발했습니다.
-- typeorm을 이용해 mysql DB와 객체-관계 매핑을 하였습니다.
+- RDBMS는 mysql DB를 사용했으며, typeorm을 이용해 객체-관계 매핑을 하였습니다.
 - 인증/인가 기능 구현은 jwt, passport, passport-jwt를 사용했습니다.
  
 
@@ -585,6 +599,12 @@ POST /recruitment/:id/apply
     "rxjs": "^7.5.7",
     "typeorm": "^0.3.10"
 ```
+
+<br>
+
+- code convention은 기본적으로 camelCase를 사용했으며, mysql db로 객체 매핑 시에는 snake_case를 이용한 네이밍을 하였습니다.
+- commit message convention은 `기능 type: message` (ex: `feat: 채용 공고 상세보기 기능 구현`) 으로 통일했습니다.
+
 
 <br>
 
@@ -624,3 +644,10 @@ POST /recruitment/:id/apply
   - [ ] 검색 기능
 
 <br>
+
+## 개선점 및 보완 사항
+- 전체적으로 DB 모델링에 대한 고민이 많았으며 개선점이 많다고 생각합니다.
+  - 유저 모델에 대하여, 일반 사용자 유저와 회사 유저에 대한 고민이 많았습니다. 인증과 인가 부분에서 공통되는 부분이 많은 일반 사용자 유저와 회사 유저에 대해 서로 다른 도메인으로 구분하여 구현한 부분에서 개선이 필요할 것 같다고 생각했습니다. 
+  - 채용 공고 모듈 내에서 사용자 지원 기능을 구현한 부분. 지원 자체에 대한 도메인을 따로 빼내어 구현해야 될지에 대한 고민이 있었습니다.
+- 지원 기능에서 채용 공고 테이블과 유저 테이블과의 relations를 설정했음에도, 지원 객체 생성시 채용 공고 id값이 null로 설정되는 이슈에 대해 개선이 필요합니다.
+- 검색 기능을 추가하지 않았습니다.
