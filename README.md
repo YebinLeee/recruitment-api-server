@@ -380,8 +380,8 @@ PATCH /recruitment/create
 
 ### Response
 
-- status code: `200 OK`
-
+- `200 OK`
+- `401 Unauthorized`
 # 3. 채용공고를 삭제합니다.
 
 - DB에서 삭제
@@ -540,7 +540,7 @@ POST /recruitment/:id/apply
 
 ### Response
 
-- status code: `200 OK`
+- `200 OK`
 - `401 Unauthorized`
 
 
@@ -574,22 +574,28 @@ POST /recruitment/:id/apply
 
 ## 모듈별 기능사항
 
-- [x] Auth Module (User Entity)
-  - [x] 로그인 기능 (email과 password로 로그인을 합니다. -> JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
-- [x] Company Module (Company Entity)
-  - [x] 회사 유저 로그인 기능 (companyName으로 로그인을 합니다. -> JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
-- [x] Recruitment Module (Recruit Entity)
-  - [x] 회사 유저로 로그인한 경우, 채용 공고를 등록할 수 있습니다. (Request Headers 확인을 통해 유저 로그인 상태를 확인합니다.)
+### Auth Module
+  - [x] 로그인 기능
+      - email과 password로 로그인을 합니다.
+      - JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
+### Company Module
+  - [x] 회사 유저 로그인 기능
+      - companyName으로 로그인을 합니다.
+      - JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
+### Recruit Module
+  - [x] 채용 공고를 등록할 수 있습니다.
+      - 회사 유저로 로그인한 경우에만 등록이 가능합니다. Request Headers 확인을 통해 유저 로그인 상태를 확인합니다.
   - [x] 전체 채용 공고 목록 조회가 가능합니다.
   - [x] 채용 공고 상세보기 조회가 가능합니다.
-      - [x] 채용 공고 회사의 다른 공고 id List를 조회할 수 있습니다. 전체 채용 공고 목록 중, 현재 공고의 회사 ID와 동일한 값을 갖는 공고들의 ID들을 넣어 만든 배열을 parameter에 추가하는 방식으로 구현하였습니다.
+      - 채용 공고 회사의 다른 공고 id List를 조회할 수 있습니다. 전체 채용 공고 목록 중, 현재 공고의 회사 ID와 동일한 값을 갖는 공고들의 ID들을 넣어 만든 배열을 parameter에 추가하는 방식으로 구현하였습니다.
   - [x] 채용 공고 수정이 가능합니다.
-      - [x] 해당 채용 공고를 작성한 회사 유저의 경우만 삭제가 가능합니다. 해당 채용 공고의 회사ID와 현재 로그인되어 있는 회사 유저의 ID를 비교하는 방식으로 구현하였습니다.
+      - 해당 채용 공고를 작성한 회사 유저의 경우에만 수정이 가능합니다. 해당 채용 공고의 회사ID와 현재 로그인되어 있는 회사 유저의 ID를 비교하는 방식으로 구현하였습니다.
       - [x] `position`, `compensation`, `contents`, `techStack` 중 한 개 이상의 parameter을 입력한 경우 해당 값(들)로 변경이 됩니다.
   - [x] 채용 공고 삭제가 가능합니다.
-      - [x] 해당 채용 공고를 작성한 회사 유저의 경우만 삭제가 가능합니다. 해당 채용 공고의 회사ID와 현재 로그인되어 있는 회사 유저의 ID를 비교하는 방식으로 구현하였습니다.
+      - [x] 해당 채용 공고를 작성한 회사 유저의 경우에만 삭제가 가능합니다. 해당 채용 공고의 회사ID와 현재 로그인되어 있는 회사 유저의 ID를 비교하는 방식으로 구현하였습니다.
   - [x] 사용자의 지원 기능 (1회 지원 가능)
-      - [x] 기본적으로 `user_id` 값을 unique로 지정하여 사용자 당 1회 지원만 가능하도록 설계하였습니다.
-      - [x] 사용자의 `is_applied` 의 default 값을 false로 설정하였고, 이 값이 true인 경우 지원 불가합니다.
-      - [x] 성공적으로 지원된 경우, `application` 객체 생성 후 사용자의 `is_applied` 값을 true값으로 변경합니다.
+      - 필수 요구 사항에는 채용_id와 유저_id를 파라미터 값을 통해 요청을 보내야 하지만, 인증과 인가 구현 기능을 추가했기 때문에 다른 방식으로 구현을 하였습니다. `recruitment/:recruitment_id/apply` 로 요청을 보내면 application 객체가 생성되는 방식으로 지원 기능을 설계하였습니다. DB에는 PK 값으로 `application_id`, 그리고 FK값으로 `recruitment_id`와 `user_id`가 저장됩니다. 
+      - `user_id` 값을 unique로 지정하여 사용자 당 1회 지원만 가능하도록 설계하였습니다.
+      - 사용자의 `is_applied` 의 default 값을 false로 설정하였고, 이 값이 true인 경우 지원 불가합니다.
+      - 성공적으로 지원된 경우, `application` 객체 생성 후 사용자의 `is_applied` 값을 true값으로 변경합니다.
   - [ ] 검색 기능
