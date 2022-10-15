@@ -2,8 +2,6 @@
 
 - 프리온보딩 백엔드 코스 5차 선발 과제
 
-<br>
-
 ### 과제 안내
 <details>
   <summary> 과제 내용 </summary>
@@ -26,7 +24,7 @@
 ### 요구사항
 
 <details>
-  <summary> 요구사항 자세히 보기 </summary>
+  <summary> 제시 요구 사항 </summary>
 
 1. **채용공고를 등록합니다.**
     
@@ -252,34 +250,37 @@
 </details>
 
 
-<br><hr>
+<br><hr><br>
 
 # 과제 기반 개발 내용
+
 ## DB 및 Entity 설계
+
+<br>
 
 <center><img src="https://user-images.githubusercontent.com/71310074/195757023-4abd7241-0ce5-47e3-9cc5-2d0ed8b5994b.png" width="600"></center>
 
 <br>
 
 - [x] Entity Domain
-  - [x] Applicants
+  - [x] Users : 유저(지원자)
       - applicant_id (PK)
       - email (varchar)
       - password (varchar)
       - is_applied (boolean)
-  - [x] Company
+  - [x] Company : 유저(회사)
       - company_id (PK)
       - company_name (varchar)
       - country (varchar)
       - region (varchar)
-  - [x] Recruitment
+  - [x] Recruitment : 채용공고
       - recruitment_id (PK)
       - position (varchar)
       - compensation (int)
       - contents (text)
       - tech_stach (text)
       - company_id (FK)
-  - [x] Application
+  - [x] Application : 지원서
       - application_id (PK)
       - recruitment_Id (FK)
       - user_id (FK)
@@ -291,22 +292,24 @@
 <details>
   <summary> API 명세서 상세</summary>
 
+<br>
+
 # 1. 채용공고를 등록합니다.
 
 - data: 회사_id, 포지션, 보상금, 내용, 사용기술
 
-### URL / Method
+## URL / Method
 
 ```jsx
 POST /recruitment/create
 ```
 
-### Request Headers
+## Request Headers
 
 - Authorization : Bearer Token
 - Content-Type : application/json; charset=utf-8
 
-### Request Body
+## Request Body
 
 - * 필수요소
 
@@ -326,7 +329,7 @@ POST /recruitment/create
 }
 ```
 
-### Response
+## Response
 
 - `200 OK` / `201 Created`
     
@@ -346,24 +349,25 @@ POST /recruitment/create
         "id": 32
     }
     ```
-    
+
+<br>    
 
 # 2. 채용공고를 수정합니다.
 
 - 회사id 제외 모든 필드 수정 가능
 
-### URL / Method
+## URL / Method
 
 ```jsx
 PATCH /recruitment/create
 ```
 
-### Request Headers
+## Request Headers
 
 - Authorization : Bearer Token
 - Content-Type : application/json; charset=utf-8
 
-### Request Body
+## Request Body
 
 | 항목 | 타입 | 설명 | 값(예시) |
 | --- | --- | --- | --- |
@@ -378,26 +382,29 @@ PATCH /recruitment/create
 }
 ```
 
-### Response
+## Response
 
 - `200 OK`
 - `401 Unauthorized`
+
+<ve>
+</ve>
 # 3. 채용공고를 삭제합니다.
 
 - DB에서 삭제
 
-### URL / Method
+## URL / Method
 
 ```jsx
 DELETE /recruitment/:id
 ```
 
-### Request Headers
+## Request Headers
 
 - Authorization : Bearer Token
 - Content-Type : application/json; charset=utf-8
 
-### Request Body
+## Request Body
 
 - * 필수요소
 
@@ -405,28 +412,30 @@ DELETE /recruitment/:id
 
 ```
 
-### Response
+## Response
 
 - `200 OK` / `201 Created`
 - `401 Unauthorized`
 - `404 NotFound`
+
+<br>
 
 # 4. 채용공고 목록을 가져옵니다.
 
 - 1) data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술
 - 2) 채용공고 검색 기능 구현
 
-### URL / Method
+## URL / Method
 
 ```jsx
 GET /recruitment/recruitment-lists
 ```
 
-### Request Headers
+## Request Headers
 
 - Content-Type : application/json; charset=utf-8
 
-### Request Body
+## Request Body
 
 - * 필수요소
 
@@ -434,7 +443,7 @@ GET /recruitment/recruitment-lists
 
 ```
 
-### Response
+## Response
 
 - `200 OK` / `201 Created`
 
@@ -469,21 +478,23 @@ GET /recruitment/recruitment-lists
     },
 ```
 
+<br>
+
 # 5. 채용 상세 페이지를 가져옵니다.
 
 - data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술, 채용내용, 회사가올린다른채용공고
 
-### URL / Method
+## URL / Method
 
 ```jsx
 GET /recruitment/:id
 ```
 
-### Request Headers
+## Request Headers
 
 - Content-Type : application/json; charset=utf-8
 
-### Request Body
+## Request Body
 
 - * 필수요소
 
@@ -491,7 +502,7 @@ GET /recruitment/:id
 
 ```
 
-### Response
+## Response
 
 - `200 OK`
     
@@ -516,72 +527,84 @@ GET /recruitment/:id
     
 - `404 NotFound`
 
+<br>
+
 # 6. 사용자는 채용공고에 지원합니다.
 
 - 사용자는 1회만 지원 가능
     - data: 공고_id, 사용자_id
 
-### URL / Method
+## URL / Method
 
 ```jsx
 POST /recruitment/:id/apply
 ```
 
-### Request Headers
+## Request Headers
 
 - Authorization : Bearer Token
 - Content-Type : application/json; charset=utf-8
 
-### Request Body
+## Request Body
 
 ```json
 
 ```
 
-### Response
+## Response
 
 - `200 OK`
 - `401 Unauthorized`
 
 
 </details>
-1. 채용공고를 등록합니다.
-    - data: 회사_id, 포지션, 보상금, 내용, 사용기술
-
-2. 채용공고를 수정합니다.
-    - 회사id 제외 모든 필드 수정 가능
-
-
-3. 채용공고를 삭제합니다.
-    - DB에서 삭제
-
-
-4. 채용공고 목록을 가져옵니다.
-    1) data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술
-    2) 채용공고 검색 기능 구현
-
-
-5. 채용 상세 페이지를 가져옵니다.
-    - data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술, 채용내용, 회사가올린다른채용공고
-
-6. 사용자는 채용공고에 지원합니다(선택사항 및 가산점요소).
-    - 사용자는 1회만 지원 가능
-    - data: 공고_id, 사용자_id
-
-
 
 <br>
 
-## 모듈별 기능사항
+## 사용 기술
+
+- typescript를 사용했으며, node.js (NestJS framework) 서버를 이용해 API를 개발했습니다.
+- typeorm을 이용해 mysql DB와 객체-관계 매핑을 하였습니다.
+- 인증/인가 기능 구현은 jwt, passport, passport-jwt를 사용했습니다.
+ 
+
+```json
+    "@nestjs/common": "^9.0.0",
+    "@nestjs/core": "^9.0.0",
+    "@nestjs/jwt": "^9.0.0",
+    "@nestjs/mapped-types": "^1.2.0",
+    "@nestjs/passport": "^9.0.0",
+    "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/typeorm": "^9.0.1",
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.5.7",
+    "typeorm": "^0.3.10"
+```
+
+<br>
+
+## 모듈별 기능 사항 상세 설명
 
 ### Auth Module
   - [x] 로그인 기능
       - email과 password로 로그인을 합니다.
       - JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
+
+<br>
+
 ### Company Module
   - [x] 회사 유저 로그인 기능
       - companyName으로 로그인을 합니다.
       - JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
+
+
+<br>
+
 ### Recruit Module
   - [x] 채용 공고를 등록할 수 있습니다.
       - 회사 유저로 로그인한 경우에만 등록이 가능합니다. Request Headers 확인을 통해 유저 로그인 상태를 확인합니다.
@@ -599,3 +622,5 @@ POST /recruitment/:id/apply
       - 사용자의 `is_applied` 의 default 값을 false로 설정하였고, 이 값이 true인 경우 지원 불가합니다.
       - 성공적으로 지원된 경우, `application` 객체 생성 후 사용자의 `is_applied` 값을 true값으로 변경합니다.
   - [ ] 검색 기능
+
+<br>

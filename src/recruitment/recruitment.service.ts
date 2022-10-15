@@ -13,7 +13,6 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { UpdateRecruitDTO } from './dto/updateRecruit.dto';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { UserRepository } from 'src/auth/user.repository';
-import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class RecruitmentService {
