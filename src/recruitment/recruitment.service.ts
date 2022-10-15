@@ -13,6 +13,7 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { UpdateRecruitDTO } from './dto/updateRecruit.dto';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { UserRepository } from 'src/auth/user.repository';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class RecruitmentService {
@@ -98,7 +99,7 @@ export class RecruitmentService {
     recruitId: number,
     recruitDTO: UpdateRecruitDTO,
     comp: Company,
-  ): Promise<NewRecruitDTO> {
+  ): Promise<any> {
     const recruit = await this.recruitRepository.findOne({
       where: { id: recruitId },
     });
@@ -106,17 +107,26 @@ export class RecruitmentService {
       throw new NotFoundException(`${recruitId} 번 공고를 찾을 수 없습니다.`);
     }
     if (recruit.companyId != comp.id) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        `${recruit.company.companyName}로 로그인 필요`,
+      );
     }
-
-    console.log('찾은 공고 정보 : ', recruit, comp);
-
-    await this.recruitRepository.update(recruitId, recruitDTO);
-    return recruit;
+    const result = await this.recruitRepository.update(recruitId, recruitDTO);
+    if (result.affected === 0) {
+      throw new NotFoundException(`${recruitId}번 공고 수정 오류 발생`);
+    }
   }
 
   // 채용 공고 삭제
   async deleteRecruit(recruitId: number, comp: Company): Promise<void> {
+    const recruit: Recruitment = await this.recruitRepository.findOne({
+      where: { id: recruitId },
+    });
+    if (recruit.companyId != comp.id) {
+      throw new UnauthorizedException(
+        `${recruit.company.companyName}으로 로그인 필요`,
+      );
+    }
     const result = await this.recruitRepository.delete({
       id: recruitId,
       company: comp,

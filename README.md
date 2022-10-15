@@ -286,19 +286,310 @@
 
 <br>
 
-## 모듈 별 기능사항
+## 요구 사항 분석 및 구현 과정
+
+<details>
+  <summary> API 명세서 상세</summary>
+
+# 1. 채용공고를 등록합니다.
+
+- data: 회사_id, 포지션, 보상금, 내용, 사용기술
+
+### URL / Method
+
+```jsx
+POST /recruitment/create
+```
+
+### Request Headers
+
+- Authorization : Bearer Token
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+- * 필수요소
+
+| 항목 | 타입 | 설명 | 값(예시) |
+| --- | --- | --- | --- |
+| *position | string (varchar) | 채용 포지션 | backend engineer |
+| *compensation | number (bigint) | 채용 보상금 | 1000000 |
+| *contents | string (varchar) | 채용 내용 | 백엔드 개발자를 채용합니다. |
+| *techStack | string (varchar) | 사용 기술 | Node.js, Nest.js |
+
+```json
+{
+    "position":"backend engineer",
+    "compensation":100000,
+    "contents":"백엔드 개발자를 채용합니다.",
+    "techStack":"Node.js, Nest.js"
+}
+```
+
+### Response
+
+- `200 OK` / `201 Created`
+    
+    ```jsx
+    {
+        "position": "backend engineer",
+        "compensation": 100000,
+        "contents": "백엔드 개발자를 채용합니다.",
+        "techStack": "Node.js, Nest.js",
+        "companyId": 1,
+        "company": {
+            "id": 1,
+            "companyName": "wanted",
+            "country": "korea",
+            "region": "seoul"
+        },
+        "id": 32
+    }
+    ```
+    
+
+# 2. 채용공고를 수정합니다.
+
+- 회사id 제외 모든 필드 수정 가능
+
+### URL / Method
+
+```jsx
+PATCH /recruitment/create
+```
+
+### Request Headers
+
+- Authorization : Bearer Token
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+| 항목 | 타입 | 설명 | 값(예시) |
+| --- | --- | --- | --- |
+| position | string (varchar) | 채용 포지션 | backend engineer |
+| compensation | number (bigint) | 채용 보상금 | 1000000 |
+| contents | string (varchar) | 채용 내용 | 백엔드 개발자를 채용합니다. |
+| techStack | string (varchar) | 사용 기술 | Node.js, Nest.js |
+
+```json
+{
+    "compensation":500000
+}
+```
+
+### Response
+
+- status code: `200 OK`
+
+# 3. 채용공고를 삭제합니다.
+
+- DB에서 삭제
+
+### URL / Method
+
+```jsx
+DELETE /recruitment/:id
+```
+
+### Request Headers
+
+- Authorization : Bearer Token
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+- * 필수요소
+
+```jsx
+
+```
+
+### Response
+
+- `200 OK` / `201 Created`
+- `401 Unauthorized`
+- `404 NotFound`
+
+# 4. 채용공고 목록을 가져옵니다.
+
+- 1) data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술
+- 2) 채용공고 검색 기능 구현
+
+### URL / Method
+
+```jsx
+GET /recruitment/recruitment-lists
+```
+
+### Request Headers
+
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+- * 필수요소
+
+```json
+
+```
+
+### Response
+
+- `200 OK` / `201 Created`
+
+```jsx
+[
+    {
+        "id": 25,
+        "companyName": "kakao",
+        "country": "korea",
+        "region": "pangyo",
+        "position": "backend",
+        "compensation": "1000000",
+        "techStack": "spring boot"
+    },
+    {
+        "id": 26,
+        "companyName": "wanted",
+        "country": "korea",
+        "region": "seoul",
+        "position": "backend",
+        "compensation": "1000000",
+        "techStack": "nestjs"
+    },
+    {
+        "id": 27,
+        "companyName": "wanted",
+        "country": "korea",
+        "region": "seoul",
+        "position": "frontend engineer",
+        "compensation": "500000",
+        "techStack": "vue.js, angular.js"
+    },
+```
+
+# 5. 채용 상세 페이지를 가져옵니다.
+
+- data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술, 채용내용, 회사가올린다른채용공고
+
+### URL / Method
+
+```jsx
+GET /recruitment/:id
+```
+
+### Request Headers
+
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+- * 필수요소
+
+```json
+
+```
+
+### Response
+
+- `200 OK`
+    
+    ```json
+    {
+        "id": 27,
+        "companyName": "wanted",
+        "country": "korea",
+        "region": "seoul",
+        "position": "frontend engineer",
+        "compensation": "500000",
+        "techStack": "vue.js, angular.js",
+        "contents": "kakao 에서 front engineer을 채용합니다.",
+        "otherRecruitLists": [
+            26,
+            27,
+            28,
+            32
+        ]
+    }
+    ```
+    
+- `404 NotFound`
+
+# 6. 사용자는 채용공고에 지원합니다.
+
+- 사용자는 1회만 지원 가능
+    - data: 공고_id, 사용자_id
+
+### URL / Method
+
+```jsx
+POST /recruitment/:id/apply
+```
+
+### Request Headers
+
+- Authorization : Bearer Token
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+```json
+
+```
+
+### Response
+
+- status code: `200 OK`
+- `401 Unauthorized`
+
+
+</details>
+1. 채용공고를 등록합니다.
+    - data: 회사_id, 포지션, 보상금, 내용, 사용기술
+
+2. 채용공고를 수정합니다.
+    - 회사id 제외 모든 필드 수정 가능
+
+
+3. 채용공고를 삭제합니다.
+    - DB에서 삭제
+
+
+4. 채용공고 목록을 가져옵니다.
+    1) data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술
+    2) 채용공고 검색 기능 구현
+
+
+5. 채용 상세 페이지를 가져옵니다.
+    - data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술, 채용내용, 회사가올린다른채용공고
+
+6. 사용자는 채용공고에 지원합니다(선택사항 및 가산점요소).
+    - 사용자는 1회만 지원 가능
+    - data: 공고_id, 사용자_id
+
+
+
+<br>
+
+## 모듈별 기능사항
 
 - [x] Auth Module (User Entity)
   - [x] 로그인 기능 (email과 password로 로그인을 합니다. -> JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
 - [x] Company Module (Company Entity)
   - [x] 회사 유저 로그인 기능 (companyName으로 로그인을 합니다. -> JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
 - [x] Recruitment Module (Recruit Entity)
-  - [x] 회사 유저로 로그인한 경우, 채용 공고를 등록할 수 있습니다.
+  - [x] 회사 유저로 로그인한 경우, 채용 공고를 등록할 수 있습니다. (Request Headers 확인을 통해 유저 로그인 상태를 확인합니다.)
   - [x] 전체 채용 공고 목록 조회가 가능합니다.
-  - [x] 채용 공고 상세보기 조회가 가능합니다. (채용 공고 회사의 다른 공고 id List 추가)
-  - [x] 채용 공고 삭제가 가능합니다. (해당 채용 공고 작성한 회사 유저의 경우만 가능)
-- [x] Application Module (Application Entity)
+  - [x] 채용 공고 상세보기 조회가 가능합니다.
+      - [x] 채용 공고 회사의 다른 공고 id List를 조회할 수 있습니다. 전체 채용 공고 목록 중, 현재 공고의 회사 ID와 동일한 값을 갖는 공고들의 ID들을 넣어 만든 배열을 parameter에 추가하는 방식으로 구현하였습니다.
+  - [x] 채용 공고 수정이 가능합니다.
+      - [x] 해당 채용 공고를 작성한 회사 유저의 경우만 삭제가 가능합니다. 해당 채용 공고의 회사ID와 현재 로그인되어 있는 회사 유저의 ID를 비교하는 방식으로 구현하였습니다.
+      - [x] `position`, `compensation`, `contents`, `techStack` 중 한 개 이상의 parameter을 입력한 경우 해당 값(들)로 변경이 됩니다.
+  - [x] 채용 공고 삭제가 가능합니다.
+      - [x] 해당 채용 공고를 작성한 회사 유저의 경우만 삭제가 가능합니다. 해당 채용 공고의 회사ID와 현재 로그인되어 있는 회사 유저의 ID를 비교하는 방식으로 구현하였습니다.
   - [x] 사용자의 지원 기능 (1회 지원 가능)
       - [x] 기본적으로 `user_id` 값을 unique로 지정하여 사용자 당 1회 지원만 가능하도록 설계하였습니다.
       - [x] 사용자의 `is_applied` 의 default 값을 false로 설정하였고, 이 값이 true인 경우 지원 불가합니다.
       - [x] 성공적으로 지원된 경우, `application` 객체 생성 후 사용자의 `is_applied` 값을 true값으로 변경합니다.
+  - [ ] 검색 기능

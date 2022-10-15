@@ -8,6 +8,7 @@ import { CompAuthGuard } from 'src/company/security/compAuth.guard';
 import { Application } from 'src/domain/application.entity';
 import { Company } from 'src/domain/company.entity';
 import { Users } from 'src/domain/users.entity';
+import { UpdateResult } from 'typeorm';
 import { NewRecruitDTO } from './dto/newRecruit.dto';
 import { RecruitDetailDTO } from './dto/recruit-detail.dto';
 import { RecruitListDTO } from './dto/recruit-list.dto';
@@ -22,7 +23,6 @@ export class RecruitmentController {
   @Post('create')
   @UseGuards(CompAuthGuard)
   async newRecruit(
-    @Req() req: Request,
     @Body() recruitDTO: NewRecruitDTO,
     @GetCompany() company: Company,
   ): Promise<NewRecruitDTO> {
@@ -63,7 +63,7 @@ export class RecruitmentController {
     @Param('recruitId') recruitId: number,
     @Body() recruitDTO: UpdateRecruitDTO,
     @GetCompany() comp: Company,
-  ): Promise<NewRecruitDTO> {
+  ): Promise<void> {
     console.log(`현재 로그인 된 회사 유저 : ${comp.companyName}`);
     return this.recruitService.updateRecruit(recruitId, recruitDTO, comp);
   }
