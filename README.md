@@ -257,7 +257,7 @@
 # 과제 기반 개발 내용
 ## DB 및 Entity 설계
 
-<center><img src="https://user-images.githubusercontent.com/71310074/195757023-4abd7241-0ce5-47e3-9cc5-2d0ed8b5994b.png" width="400"></center>
+<center><img src="https://user-images.githubusercontent.com/71310074/195757023-4abd7241-0ce5-47e3-9cc5-2d0ed8b5994b.png" width="600"></center>
 
 <br>
 
@@ -283,14 +283,15 @@
       - application_id (PK)
       - recruitment_Id (FK)
       - user_id (FK)
-  
-  
 
+<br>
+
+## 모듈 별 기능사항
 
 - [x] Auth Module (User Entity)
-  - [x] 로그인 기능 (email과 password로 로그인을 합니다. -> 인증 생략. 간단히 구현)
+  - [x] 로그인 기능 (email과 password로 로그인을 합니다. -> JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
 - [x] Company Module (Company Entity)
-  - [x] 회사 유저 로그인 기능 (companyName으로 로그인을 합니다. -> 인증 생략. 간단히 구현)
+  - [x] 회사 유저 로그인 기능 (companyName으로 로그인을 합니다. -> JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
 - [x] Recruitment Module (Recruit Entity)
   - [x] 회사 유저로 로그인한 경우, 채용 공고를 등록할 수 있습니다.
   - [x] 전체 채용 공고 목록 조회가 가능합니다.
