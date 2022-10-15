@@ -5,7 +5,7 @@ import { TypeOrmExModule } from 'src/db/typeorm-ex.decorator';
 import { CompanyController } from './company.controller';
 import { CompanyRepository } from './company.repository';
 import { CompanyService } from './company.service';
-import { JwtStrategy } from './security/passport.strategy';
+import { CompJwtStrategy } from './security/passport.strategy';
 
 @Module({
   imports: [
@@ -18,6 +18,6 @@ import { JwtStrategy } from './security/passport.strategy';
   ],
   exports: [TypeOrmExModule, PassportModule],
   controllers: [CompanyController],
-  providers: [CompanyService, JwtModule, JwtStrategy],
+  providers: [CompanyService, JwtModule, CompJwtStrategy],
 })
 export class CompanyModule {}

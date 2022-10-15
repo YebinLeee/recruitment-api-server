@@ -1,4 +1,5 @@
 import {
+  Column,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -12,6 +13,9 @@ import { Users } from './users.entity';
 export class Application {
   @PrimaryGeneratedColumn({ type: 'int', name: 'application_id' })
   id: number;
+
+  @Column('text', { name: 'resume', nullable: true })
+  resume: string;
 
   @OneToOne(() => Users)
   @JoinColumn({

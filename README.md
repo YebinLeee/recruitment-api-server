@@ -257,7 +257,7 @@
 
 1. DB 및 Entity 설계
 
-<center><img src="https://user-images.githubusercontent.com/71310074/195594839-3b6d5b49-3ca3-4211-a177-687336fbf7f9.png" width="500"></center>
+<center><img src="https://user-images.githubusercontent.com/71310074/195757023-4abd7241-0ce5-47e3-9cc5-2d0ed8b5994b.png" width="500"></center>
 
 - [x] Entity Domain
   - [x] Applicants
@@ -286,6 +286,11 @@
 
 
 - [ ] Auth Module (User Entity)
+  - [x] 로그인 기능 (email과 password로 로그인을 합니다. -> 인증 생략. 간단히 구현)
 - [ ] Company Module (Company Entity)
+  - [x] 회사유저 로그인 기능 (companyName으로 로그인을 합니다. -> 인증 생략. 간단히 구현)
 - [ ] Recruit Module (Recruit Entity)
+  - [x] 전체 채용 공고 목록 조회
+  - [x] 채용 공고 상세보기 조회 기능 (채용 공고 회사의 다른 공고 id List 추가)
 - [ ] Application Module (Application Entity)
+  - [ ] 사용자의 지원 기능

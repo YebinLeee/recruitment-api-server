@@ -24,16 +24,15 @@ export class CompanyService {
   async validateCompany(
     compDTO: CompanySigninDTO,
   ): Promise<{ accessToken: string } | undefined> {
-    const compFind: Company = await this.findByFields({
+    const comp: Company = await this.findByFields({
       where: { companyName: compDTO.companyName },
     });
-    console.log('회사 발견 : ', compFind);
 
-    if (!compFind) {
+    if (!comp) {
       throw new UnauthorizedException('회사 로그인 실패');
     }
 
-    const payload = compFind.companyName;
+    const payload = comp.companyName;
     return {
       accessToken: this.jwtService.sign(payload),
     };
@@ -44,7 +43,7 @@ export class CompanyService {
     return 'Authentication=; HttpOnly; Path=/; Max-Age=0';
   }
 
-  // 유저의 토큰 검증
+  // 회사 유저의 토큰 검증
   async tokenValidateUser(cName: string): Promise<Company | undefined> {
     return await this.findByFields({
       where: { companyName: cName },
