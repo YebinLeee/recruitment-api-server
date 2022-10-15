@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Company } from 'src/domain/company.entity';
 import { Recruitment } from 'src/domain/recruitment.entity';
@@ -12,6 +12,7 @@ import { Users } from 'src/domain/users.entity';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { UpdateRecruitDTO } from './dto/updateRecruit.dto';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
+import { UserRepository } from 'src/auth/user.repository';
 
 @Injectable()
 export class RecruitmentService {
@@ -20,6 +21,8 @@ export class RecruitmentService {
     private recruitRepository: RecruitmentRepository,
     @InjectRepository(ApplicationRepository)
     private applyRepository: ApplicationRepository,
+    @InjectRepository(UserRepository)
+    private userRepository: UserRepository,
   ) {}
 
   // 채용 공고 등록
@@ -90,24 +93,6 @@ export class RecruitmentService {
     return recruitPost;
   }
 
-  // 채용 공고 지원
-  async apply(
-    recruitId: number,
-    userApplied: Users,
-  ): Promise<Application | undefined> {
-    console.log(recruitId, userApplied);
-    const recruitApplied = await this.recruitRepository.findOne({
-      where: { id: recruitId },
-    });
-    if (!recruitApplied) {
-      throw new NotFoundException(`${recruitId} 번 공고를 찾을 수 없습니다.`);
-    }
-    return await this.applyRepository.save({
-      user: userApplied,
-      recruit: recruitApplied,
-    });
-  }
-
   // 채용 공고 수정
   async updateRecruit(
     recruitId: number,
@@ -141,5 +126,33 @@ export class RecruitmentService {
         `${recruitId}번 게시물을 삭제하지 못했습니다.`,
       );
     }
+  }
+
+  // 채용 공고 지원
+  async apply(
+    recruitId: number,
+    userApplied: Users,
+  ): Promise<Application | undefined> {
+    console.log(recruitId, userApplied);
+
+    if (userApplied.isApplied == true) {
+      throw new BadRequestException('더이상 지원 불가합니다.');
+    }
+    const recruitApplied = await this.recruitRepository.findOne({
+      where: { id: recruitId },
+    });
+    if (!recruitApplied) {
+      throw new NotFoundException(`${recruitId} 번 공고를 찾을 수 없습니다.`);
+    }
+    console.log('유저 정보: ', userApplied);
+    console.log('공고 정보 : ', recruitApplied);
+    this.userRepository.update(userApplied.id, {
+      isApplied: true,
+    });
+
+    return await this.applyRepository.save({
+      user: userApplied,
+      recruit: recruitApplied,
+    });
   }
 }

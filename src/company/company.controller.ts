@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { Get, Res } from '@nestjs/common/decorators';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Company } from 'src/domain/company.entity';
 import { CompanyService } from './company.service';
 import { CompanySigninDTO } from './dto/comp-signin.dto';

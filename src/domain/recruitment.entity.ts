@@ -36,8 +36,6 @@ export class Recruitment {
   @Column('int', { name: 'company_id' })
   companyId: number;
 
-  @OneToMany(() => Application, (application) => application.recruitment, {
-    eager: true,
-  })
+  @OneToMany(() => Application, (application) => application.recruitment)
   applications: Application[];
 }

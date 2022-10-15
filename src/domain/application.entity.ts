@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -24,7 +25,7 @@ export class Application {
   user: Users;
 
   @ManyToOne(() => Recruitment, (recruitment) => recruitment.applications, {
-    eager: false,
+    eager: true,
   })
   @JoinColumn({
     name: 'recruitment_id',

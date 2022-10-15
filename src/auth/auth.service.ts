@@ -40,7 +40,6 @@ export class AuthService {
 
   // 유저의 토큰 검증
   async tokenValidateUser(userEmail: string): Promise<Users | undefined> {
-    console.log('email로 검증합니다.');
     return await this.findByFields({
       where: { email: userEmail },
     });
