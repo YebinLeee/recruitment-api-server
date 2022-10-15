@@ -1,18 +1,13 @@
 # 백엔드 코스 - 5차 선발과제
 
-- 프리온보딩 백엔드 코스 4차 선발과제.
+- 프리온보딩 백엔드 코스 5차 선발 과제
 
-## 제출 필수 사항
+<br>
 
-<aside>
-👉 **Github Repository** 주소를 제출해주세요.
+### 과제 안내
+<details>
+  <summary> 과제 내용 </summary>
 
-</aside>
-
-<aside>
-👉 Repository 명은 “**wanted_pre_onboarding**” 으로 생성 합니다.
-
-</aside>
 
 ## 과제안내
 
@@ -25,7 +20,10 @@
 - 본 서비스는 기업의 채용을 위한 웹 서비스 입니다.
 - 회사는 채용공고를 생성하고, 이에 사용자는 지원합니다.
 
-## 요구사항
+</details>
+<br>
+
+### 요구사항
 
 <details>
   <summary> 요구사항 자세히 보기 </summary>
@@ -254,10 +252,14 @@
 </details>
 
 
+<br><hr>
 
-1. DB 및 Entity 설계
+# 과제 기반 개발 내용
+## DB 및 Entity 설계
 
-<center><img src="https://user-images.githubusercontent.com/71310074/195757023-4abd7241-0ce5-47e3-9cc5-2d0ed8b5994b.png" width="500"></center>
+<center><img src="https://user-images.githubusercontent.com/71310074/195757023-4abd7241-0ce5-47e3-9cc5-2d0ed8b5994b.png" width="400"></center>
+
+<br>
 
 - [x] Entity Domain
   - [x] Applicants
@@ -276,21 +278,26 @@
       - compensation (int)
       - contents (text)
       - tech_stach (text)
-      - companyId (FK)
+      - company_id (FK)
   - [x] Application
       - application_id (PK)
-      - recruitmentId (FK)
-      - applicantsId (FK)
+      - recruitment_Id (FK)
+      - user_id (FK)
   
   
 
 
-- [ ] Auth Module (User Entity)
+- [x] Auth Module (User Entity)
   - [x] 로그인 기능 (email과 password로 로그인을 합니다. -> 인증 생략. 간단히 구현)
-- [ ] Company Module (Company Entity)
-  - [x] 회사유저 로그인 기능 (companyName으로 로그인을 합니다. -> 인증 생략. 간단히 구현)
-- [ ] Recruit Module (Recruit Entity)
-  - [x] 전체 채용 공고 목록 조회
-  - [x] 채용 공고 상세보기 조회 기능 (채용 공고 회사의 다른 공고 id List 추가)
-- [ ] Application Module (Application Entity)
-  - [ ] 사용자의 지원 기능
+- [x] Company Module (Company Entity)
+  - [x] 회사 유저 로그인 기능 (companyName으로 로그인을 합니다. -> 인증 생략. 간단히 구현)
+- [x] Recruitment Module (Recruit Entity)
+  - [x] 회사 유저로 로그인한 경우, 채용 공고를 등록할 수 있습니다.
+  - [x] 전체 채용 공고 목록 조회가 가능합니다.
+  - [x] 채용 공고 상세보기 조회가 가능합니다. (채용 공고 회사의 다른 공고 id List 추가)
+  - [x] 채용 공고 삭제가 가능합니다. (해당 채용 공고 작성한 회사 유저의 경우만 가능)
+- [x] Application Module (Application Entity)
+  - [x] 사용자의 지원 기능 (1회 지원 가능)
+      - [x] 기본적으로 `user_id` 값을 unique로 지정하여 사용자 당 1회 지원만 가능하도록 설계하였습니다.
+      - [x] 사용자의 `is_applied` 의 default 값을 false로 설정하였고, 이 값이 true인 경우 지원 불가합니다.
+      - [x] 성공적으로 지원된 경우, `application` 객체 생성 후 사용자의 `is_applied` 값을 true값으로 변경합니다.
