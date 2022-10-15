@@ -4,7 +4,7 @@ import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 import { CompanyService } from '../company.service';
 
 @Injectable()
-export class CompJwtStrategy extends PassportStrategy(Strategy) {
+export class CompJwtStrategy extends PassportStrategy(Strategy, 'jwt-company') {
   constructor(private compService: CompanyService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

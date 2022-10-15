@@ -4,7 +4,7 @@ import { Company } from 'src/domain/company.entity';
 export const GetCompany = createParamDecorator(
   (data, ctx: ExecutionContext): Company => {
     const req = ctx.switchToHttp().getRequest();
-    console.log('companny request : ', req.user);
+    console.log('company request : ', req.user);
     return req.user;
   },
 );

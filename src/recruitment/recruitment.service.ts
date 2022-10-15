@@ -11,6 +11,7 @@ import { ApplicationRepository } from './application.repository';
 import { Users } from 'src/domain/users.entity';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { UpdateRecruitDTO } from './dto/updateRecruit.dto';
+import { UnauthorizedException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class RecruitmentService {
@@ -98,7 +99,9 @@ export class RecruitmentService {
     const recruitApplied = await this.recruitRepository.findOne({
       where: { id: recruitId },
     });
-
+    if (!recruitApplied) {
+      throw new NotFoundException(`${recruitId} 번 공고를 찾을 수 없습니다.`);
+    }
     return await this.applyRepository.save({
       user: userApplied,
       recruit: recruitApplied,
@@ -111,14 +114,18 @@ export class RecruitmentService {
     recruitDTO: UpdateRecruitDTO,
     comp: Company,
   ): Promise<NewRecruitDTO> {
-    console.log(`${recruitId}번 공고를 찾습니다.`);
     const recruit = await this.recruitRepository.findOne({
       where: { id: recruitId },
     });
-    console.log('찾은 공고 정보 : ', recruit, comp);
     if (!recruit) {
       throw new NotFoundException(`${recruitId} 번 공고를 찾을 수 없습니다.`);
     }
+    if (recruit.companyId != comp.id) {
+      throw new UnauthorizedException();
+    }
+
+    console.log('찾은 공고 정보 : ', recruit, comp);
+
     await this.recruitRepository.update(recruitId, recruitDTO);
     return recruit;
   }

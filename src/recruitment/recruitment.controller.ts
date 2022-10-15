@@ -64,7 +64,7 @@ export class RecruitmentController {
     @Body() recruitDTO: UpdateRecruitDTO,
     @GetCompany() comp: Company,
   ): Promise<NewRecruitDTO> {
-    console.log(`${recruitId}번 공고를 찾습니다.`);
+    console.log(`현재 로그인 된 회사 유저 : ${comp.companyName}`);
     return this.recruitService.updateRecruit(recruitId, recruitDTO, comp);
   }
 
@@ -75,7 +75,6 @@ export class RecruitmentController {
     @Param('recruitId') recruitId: number,
     @GetUser() user: Users,
   ): Promise<Application> {
-    console.log('사용자 : ', user);
     return this.recruitService.apply(recruitId, user);
   }
 }
