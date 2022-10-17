@@ -15,7 +15,6 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy) {
 
   // 토큰 검증
   async validate(payload: string, done: VerifiedCallback): Promise<any> {
-    console.log('payload : ', payload);
     const user = await this.authService.tokenValidateUser(payload);
     if (!user) {
       return done(new UnauthorizedException({ message: '유저 로그인 필요' }));

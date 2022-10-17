@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { Get, Res } from '@nestjs/common/decorators';
 import { Response } from 'express';
 import { Company } from 'src/domain/company.entity';

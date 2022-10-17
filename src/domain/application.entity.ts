@@ -1,3 +1,5 @@
+import { IsNumber } from 'class-validator';
+import { IsString } from 'class-validator/types/decorator/decorators';
 import {
   Column,
   Entity,
@@ -12,9 +14,11 @@ import { Users } from './users.entity';
 @Entity('application')
 export class Application {
   @PrimaryGeneratedColumn({ type: 'int', name: 'application_id' })
+  @IsNumber()
   id: number;
 
   @Column('text', { name: 'resume', nullable: true })
+  @IsString()
   resume: string;
 
   @OneToOne(() => Users)

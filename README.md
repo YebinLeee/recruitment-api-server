@@ -262,10 +262,10 @@
 
 <br>
 
-<details>
-  <summary> DB 모델링 설계 상세 설명</summary>
+
+### DB 모델링 설계 상세 설명
   
-## users : 유저(지원자)
+### users : 유저(지원자)
 
 - 일반 사용자에 대한 users 테이블입니다.
 - `user_id`(int, PK), `email`(varchar), `password`(varchar), `is_applied` (tinyint) 로 구성되어 있습니다.
@@ -273,7 +273,7 @@
 
 <br>
 
-## company : 회사 유저
+### company : 회사 유저
 
 - 회사 유저에 대한 `company` 테이블입니다.
 - 회사의 기본적인 정보를 담고 있으며, 채용 공고 (Recruitment)에 대한 CRUD를 맡는 유저합니다.
@@ -282,7 +282,7 @@
 
 <br>
 
-## recruitment : 채용공고
+### recruitment : 채용공고
 
 - 채용 공고에 대한 `recruitment` 테이블입니다.
 - `recruitment_id`(int, PK), `position`(varchar), `compensation)`(bigint), `contents`(text), `tech_stack`(text), `company_id`(int, FK)로 구성되어 있습니다.
@@ -290,7 +290,7 @@
 
 <br>
 
-## application : 지원서
+### application : 지원서
 
 - 지원서에 대한 `application` 테이블입니다.
 - `application_id`(int, PK), `reume`(TEXT), `recruitment_id`(int, FK), `user_id`(int, FK)로 구성되어 있습니다.
@@ -300,278 +300,7 @@
 
 <br>
 
-
-## 요구 사항 분석 및 구현 과정
-
-<details>
-  <summary> API 명세서 상세</summary>
-
-<br>
-
-# 1. 채용공고를 등록합니다.
-
-- data: 회사_id, 포지션, 보상금, 내용, 사용기술
-
-## URL / Method
-
-```jsx
-POST /recruitment/create
-```
-
-## Request Headers
-
-- Authorization : Bearer Token
-- Content-Type : application/json; charset=utf-8
-
-## Request Body
-
-- * 필수요소
-
-| 항목 | 타입 | 설명 | 값(예시) |
-| --- | --- | --- | --- |
-| *position | string (varchar) | 채용 포지션 | backend engineer |
-| *compensation | number (bigint) | 채용 보상금 | 1000000 |
-| *contents | string (varchar) | 채용 내용 | 백엔드 개발자를 채용합니다. |
-| *techStack | string (varchar) | 사용 기술 | Node.js, Nest.js |
-
-```json
-{
-    "position":"backend engineer",
-    "compensation":100000,
-    "contents":"백엔드 개발자를 채용합니다.",
-    "techStack":"Node.js, Nest.js"
-}
-```
-
-## Response
-
-- `200 OK` / `201 Created`
-    
-    ```jsx
-    {
-        "position": "backend engineer",
-        "compensation": 100000,
-        "contents": "백엔드 개발자를 채용합니다.",
-        "techStack": "Node.js, Nest.js",
-        "companyId": 1,
-        "company": {
-            "id": 1,
-            "companyName": "wanted",
-            "country": "korea",
-            "region": "seoul"
-        },
-        "id": 32
-    }
-    ```
-
-<br>    
-
-# 2. 채용공고를 수정합니다.
-
-- 회사id 제외 모든 필드 수정 가능
-
-## URL / Method
-
-```jsx
-PATCH /recruitment/create
-```
-
-## Request Headers
-
-- Authorization : Bearer Token
-- Content-Type : application/json; charset=utf-8
-
-## Request Body
-
-| 항목 | 타입 | 설명 | 값(예시) |
-| --- | --- | --- | --- |
-| position | string (varchar) | 채용 포지션 | backend engineer |
-| compensation | number (bigint) | 채용 보상금 | 1000000 |
-| contents | string (varchar) | 채용 내용 | 백엔드 개발자를 채용합니다. |
-| techStack | string (varchar) | 사용 기술 | Node.js, Nest.js |
-
-```json
-{
-    "compensation":500000
-}
-```
-
-## Response
-
-- `200 OK`
-- `401 Unauthorized`
-
-<ve>
-</ve>
-# 3. 채용공고를 삭제합니다.
-
-- DB에서 삭제
-
-## URL / Method
-
-```jsx
-DELETE /recruitment/:id
-```
-
-## Request Headers
-
-- Authorization : Bearer Token
-- Content-Type : application/json; charset=utf-8
-
-## Request Body
-
-- * 필수요소
-
-```jsx
-
-```
-
-## Response
-
-- `200 OK` / `201 Created`
-- `401 Unauthorized`
-- `404 NotFound`
-
-<br>
-
-# 4. 채용공고 목록을 가져옵니다.
-
-- 1) data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술
-- 2) 채용공고 검색 기능 구현
-
-## URL / Method
-
-```jsx
-GET /recruitment/recruitment-lists
-```
-
-## Request Headers
-
-- Content-Type : application/json; charset=utf-8
-
-## Request Body
-
-- * 필수요소
-
-```json
-
-```
-
-## Response
-
-- `200 OK` / `201 Created`
-
-```jsx
-[
-    {
-        "id": 25,
-        "companyName": "kakao",
-        "country": "korea",
-        "region": "pangyo",
-        "position": "backend",
-        "compensation": "1000000",
-        "techStack": "spring boot"
-    },
-    {
-        "id": 26,
-        "companyName": "wanted",
-        "country": "korea",
-        "region": "seoul",
-        "position": "backend",
-        "compensation": "1000000",
-        "techStack": "nestjs"
-    },
-    {
-        "id": 27,
-        "companyName": "wanted",
-        "country": "korea",
-        "region": "seoul",
-        "position": "frontend engineer",
-        "compensation": "500000",
-        "techStack": "vue.js, angular.js"
-    },
-```
-
-<br>
-
-# 5. 채용 상세 페이지를 가져옵니다.
-
-- data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술, 채용내용, 회사가올린다른채용공고
-
-## URL / Method
-
-```jsx
-GET /recruitment/:id
-```
-
-## Request Headers
-
-- Content-Type : application/json; charset=utf-8
-
-## Request Body
-
-- * 필수요소
-
-```json
-
-```
-
-## Response
-
-- `200 OK`
-    
-    ```json
-    {
-        "id": 27,
-        "companyName": "wanted",
-        "country": "korea",
-        "region": "seoul",
-        "position": "frontend engineer",
-        "compensation": "500000",
-        "techStack": "vue.js, angular.js",
-        "contents": "kakao 에서 front engineer을 채용합니다.",
-        "otherRecruitLists": [
-            26,
-            27,
-            28,
-            32
-        ]
-    }
-    ```
-    
-- `404 NotFound`
-
-<br>
-
-# 6. 사용자는 채용공고에 지원합니다.
-
-- 사용자는 1회만 지원 가능
-    - data: 공고_id, 사용자_id
-
-## URL / Method
-
-```jsx
-POST /recruitment/:id/apply
-```
-
-## Request Headers
-
-- Authorization : Bearer Token
-- Content-Type : application/json; charset=utf-8
-
-## Request Body
-
-```json
-
-```
-
-## Response
-
-- `200 OK`
-- `401 Unauthorized`
-
-
-</details>
+---
 
 <br>
 
@@ -606,6 +335,342 @@ POST /recruitment/:id/apply
 - commit message convention은 `기능 type: message` (ex: `feat: 채용 공고 상세보기 기능 구현`) 으로 통일했습니다.
 
 
+<br><hr><br>
+
+# API 명세 상세 설명
+
+## 1. 채용공고를 등록합니다.
+
+- data: 회사_id, 포지션, 보상금, 내용, 사용기술
+
+### URL / Method
+
+```jsx
+POST /recruitment/create
+```
+
+### Request Headers
+
+- Authorization : Bearer Token
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+- * 필수요소
+
+| 항목 | 타입 | 설명 | 값(예시) |
+| --- | --- | --- | --- |
+| *position | string (varchar) | 채용 포지션 | backend engineer |
+| *compensation | number (bigint) | 채용 보상금 | 1000000 |
+| *contents | string (varchar) | 채용 내용 | 백엔드 개발자를 채용합니다. |
+| *techStack | string (varchar) | 사용 기술 | Node.js, Nest.js |
+
+```json
+{
+    "position":"backend engineer",
+    "compensation":100000,
+    "contents":"백엔드 개발자를 채용합니다.",
+    "techStack":"Node.js, Nest.js"
+}
+```
+
+### Response
+
+- `200 OK` / `201 Created` : 성공적으로 POST Request 전송 완료
+    
+    ```json
+    {
+        "position": "backend engineer",
+        "compensation": 100000,
+        "contents": "백엔드 개발자를 채용합니다.",
+        "techStack": "Node.js, Nest.js",
+        "companyId": 1,
+        "company": {
+            "id": 1,
+            "companyName": "wanted",
+            "country": "korea",
+            "region": "seoul"
+        },
+        "id": 32
+    }
+    ```
+- `401 Unauthorized` : 회사 유저로 로그인하지 않은 경우 (Request Headers에 Bearer Token 없는 경우)
+
+  ```json
+    {
+        "statusCode": 401,
+        "message": "Unauthorized"
+    }
+
+  ```
+<br>    
+
+## 2. 채용공고를 수정합니다.
+
+- 회사id 제외 모든 필드 수정 가능
+
+### URL / Method
+
+```jsx
+PATCH /recruitment/create
+```
+
+### Request Headers
+
+- Authorization : Bearer Token
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+| 항목 | 타입 | 설명 | 값(예시) |
+| --- | --- | --- | --- |
+| position | string (varchar) | 채용 포지션 | backend engineer |
+| compensation | number (bigint) | 채용 보상금 | 1000000 |
+| contents | string (varchar) | 채용 내용 | 백엔드 개발자를 채용합니다. |
+| techStack | string (varchar) | 사용 기술 | Node.js, Nest.js |
+
+```json
+{
+    "compensation":500000
+}
+```
+
+### Response
+
+- `200 OK`
+- `401 Unauthorized` : 해당 채용 공고의 회사 유저 아이디로 로그인하지 않은 경우
+
+  ```json
+
+  {
+        "statusCode": 401,
+        "message": "kakao로 로그인 필요",
+        "error": "Unauthorized"
+  }
+
+  ```
+- `404 NotFound` : 해당 공고가 존재하지 않는 경우
+  ```json
+  {
+        "statusCode": 404,
+        "message": "31 번 공고를 찾을 수 없습니다.",
+        "error": "Not Found"
+  }
+
+<br>
+
+## 3. 채용공고를 삭제합니다.
+
+- DB에서 삭제
+
+### URL / Method
+
+```jsx
+DELETE /recruitment/:id
+```
+
+### Request Headers
+
+- Authorization : Bearer Token
+- Content-Type : application/json; charset=utf-8
+
+## Request Body
+
+```json
+
+```
+
+### Response
+
+- `200 OK` / `201 Created` : 성공적으로 DELETE reqeust 전송 완료
+- `401 Unauthorized` : JWT 토큰 해석 불가 또는 headers에 token 없는 경우
+  ```json
+  {
+        "statusCode": 401,
+        "message": "Unauthorized"
+  }
+  ```
+- `401 Unauthorized` : 해당 채용 공고의 회사 유저 아이디로 로그인하지 않은 경우
+  ```json
+  {
+        "statusCode": 401,
+        "message": "wanted으로 로그인 필요",
+        "error": "Unauthorized"
+  }
+  ```
+- `404 NotFound` : 해당 공고가 존재하지 않는 경우
+  ```json
+  {
+        "statusCode": 404,
+        "message": "31 번 공고를 찾을 수 없습니다.",
+        "error": "Not Found"
+  }
+
+<br>
+
+## 4. 채용공고 목록을 가져옵니다.
+
+- 1) data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술
+- 2) 채용공고 검색 기능 구현
+
+### URL / Method
+
+```jsx
+GET /recruitment/recruitment-lists
+```
+
+### Request Headers
+
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+```json
+
+```
+
+### Response
+
+- `200 OK` / `201 Created` : 성공적으로 GET Request 전송 완료
+
+```json
+[
+    {
+        "id": 25,
+        "companyName": "kakao",
+        "country": "korea",
+        "region": "pangyo",
+        "position": "backend",
+        "compensation": "1000000",
+        "techStack": "spring boot"
+    },
+    {
+        "id": 26,
+        "companyName": "wanted",
+        "country": "korea",
+        "region": "seoul",
+        "position": "backend",
+        "compensation": "1000000",
+        "techStack": "nestjs"
+    },
+    {
+        "id": 27,
+        "companyName": "wanted",
+        "country": "korea",
+        "region": "seoul",
+        "position": "frontend engineer",
+        "compensation": "500000",
+        "techStack": "vue.js, angular.js"
+    },
+```
+
+<br>
+
+## 5. 채용 상세 페이지를 가져옵니다.
+
+- data: 공고_id, 회사명, 국가, 지역, 포지션, 보상금, 사용기술, 채용내용, 회사가올린다른채용공고
+
+### URL / Method
+
+```jsx
+GET /recruitment/:id
+```
+
+### Request Headers
+
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+```json
+
+```
+
+### Response
+
+- `200 OK`
+    
+    ```json
+    {
+        "id": 27,
+        "companyName": "wanted",
+        "country": "korea",
+        "region": "seoul",
+        "position": "frontend engineer",
+        "compensation": "500000",
+        "techStack": "vue.js, angular.js",
+        "contents": "kakao 에서 front engineer을 채용합니다.",
+        "otherRecruitLists": [
+            26,
+            27,
+            28,
+            32
+        ]
+    }
+    ```
+    
+- `404 NotFound` : 해당 공고가 존재하지 않는 경우
+  ```json
+  {
+      "statusCode": 404,
+      "message": "31번 채용 공고를 찾지 못했습니다.",
+      "error": "Not Found"
+  }
+  ```
+
+<br>
+
+## 6. 사용자는 채용공고에 지원합니다.
+
+- 사용자는 1회만 지원 가능
+    - data: 공고_id, 사용자_id
+
+### URL / Method
+
+```jsx
+POST /recruitment/:id/apply
+```
+
+### Request Headers
+
+- Authorization : Bearer Token
+- Content-Type : application/json; charset=utf-8
+
+### Request Body
+
+```json
+
+```
+
+### Response
+
+- `200 OK` : 성공적으로 POST Request 전송 완료
+- `401 Unauthorized` : 유저 로그인하지 않은 경우
+  ```json
+  {
+    "message": "유저 로그인 필요"
+  }
+  ```
+- `401 Unauthorized` : JWT 토큰 해석 불가 또는 headers에 token 없는 경우
+  ```json
+  {
+    "statusCode": 401,
+    "message": "Unauthorized"
+  }
+  ```
+- `400 BadRequest` : application 테이블에 이미 unique한 user_id값을 갖는 데이터가 존재하는 경우 (더이상 지원 불가)
+  ```json
+  {
+      "statusCode": 400,
+      "message": "더이상 지원 불가합니다.",
+      "error": "Bad Request"
+  }
+  ```
+
+
+</details>
+
+
 <br>
 
 ## 모듈별 기능 사항 상세 설명
@@ -615,15 +680,11 @@ POST /recruitment/:id/apply
       - email과 password로 로그인을 합니다.
       - JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
 
-<br>
-
 ### Company Module
   - [x] 회사 유저 로그인 기능
       - companyName으로 로그인을 합니다.
       - JWT 기반 PassportStrategy, UseGuards로 간단히 인증/인가 구현)
 
-
-<br>
 
 ### Recruit Module
   - [x] 채용 공고를 등록할 수 있습니다.
@@ -647,7 +708,7 @@ POST /recruitment/:id/apply
 
 ## 개선점 및 보완 사항
 - 전체적으로 DB 모델링에 대한 고민이 많았으며 개선점이 많다고 생각합니다.
-  - 유저 모델에 대하여, 일반 사용자 유저와 회사 유저에 대한 고민이 많았습니다. 인증과 인가 부분에서 공통되는 부분이 많은 일반 사용자 유저와 회사 유저에 대해 서로 다른 도메인으로 구분하여 구현한 부분에서 개선이 필요할 것 같다고 생각했습니다. 
+  - 유저 모델에 대하여, 일반 사용자 유저와 회사 유저에 대한 고민이 많았습니다. 인증과 인가 부분에서 공통되는 부분이 많은 일반 사용자 유저와 회사 유저에 대해 서로 다른 도메인으로 구분하여 구현한 부분에서 개선이 필요합니다.
   - 채용 공고 모듈 내에서 사용자 지원 기능을 구현한 부분. 지원 자체에 대한 도메인을 따로 빼내어 구현해야 될지에 대한 고민이 있었습니다.
 - 지원 기능에서 채용 공고 테이블과 유저 테이블과의 relations를 설정했음에도, 지원 객체 생성시 채용 공고 id값이 null로 설정되는 이슈에 대해 개선이 필요합니다.
 - 검색 기능을 추가하지 않았습니다.

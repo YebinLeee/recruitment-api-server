@@ -121,6 +121,9 @@ export class RecruitmentService {
     const recruit: Recruitment = await this.recruitRepository.findOne({
       where: { id: recruitId },
     });
+    if (!recruit) {
+      throw new NotFoundException(`${recruitId} 번 공고를 찾을 수 없습니다.`);
+    }
     if (recruit.companyId != comp.id) {
       throw new UnauthorizedException(
         `${recruit.company.companyName}으로 로그인 필요`,

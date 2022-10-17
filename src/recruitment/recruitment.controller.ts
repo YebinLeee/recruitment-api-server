@@ -1,6 +1,5 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { Delete, Get, Param, Patch } from '@nestjs/common/decorators';
-import { Request } from 'express';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { UserAuthGuard } from 'src/auth/security/userAuth.guard';
 import { GetCompany } from 'src/company/get-company.decorator';
@@ -8,7 +7,6 @@ import { CompAuthGuard } from 'src/company/security/compAuth.guard';
 import { Application } from 'src/domain/application.entity';
 import { Company } from 'src/domain/company.entity';
 import { Users } from 'src/domain/users.entity';
-import { UpdateResult } from 'typeorm';
 import { NewRecruitDTO } from './dto/newRecruit.dto';
 import { RecruitDetailDTO } from './dto/recruit-detail.dto';
 import { RecruitListDTO } from './dto/recruit-list.dto';
