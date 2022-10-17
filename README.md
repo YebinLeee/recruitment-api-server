@@ -312,6 +312,7 @@
  
 
 ```json
+  "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^9.0.0",
@@ -319,6 +320,7 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
+    "class-validator": "^0.13.2",
     "express": "^4.18.2",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
@@ -327,6 +329,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.7",
     "typeorm": "^0.3.10"
+  },
 ```
 
 <br>
@@ -671,7 +674,7 @@ POST /recruitment/:id/apply
 </details>
 
 
-<br>
+<br><hr><br>
 
 ## 모듈별 기능 사항 상세 설명
 
